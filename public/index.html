@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1150" />
+    <title>Solana Pyth API</title>
+    <meta
+      name="description"
+      content="Solana Pyth oracle API demo powered by Vybe: browse price feeds, live prices, OHLC candles, price history, and product metadata."
+    />
+    <meta name="theme-color" content="#0f0f12" />
+    <link rel="canonical" href="https://solana-pyth-api.vybenetwork.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Vybe Network" />
+    <meta property="og:url" content="https://solana-pyth-api.vybenetwork.com/" />
+    <meta property="og:title" content="Solana Pyth API" />
+    <meta
+      property="og:description"
+      content="Solana Pyth oracle API demo powered by Vybe: browse price feeds, live prices, OHLC candles, price history, and product metadata."
+    />
+    <meta property="og:image" content="https://solana-pyth-api.vybenetwork.com/solana-pyth-api.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Solana Pyth API" />
+    <meta
+      name="twitter:description"
+      content="Solana Pyth oracle API demo powered by Vybe: browse price feeds, live prices, OHLC candles, price history, and product metadata."
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="app.css?v=1" />
+    <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header class="page-masthead" aria-label="About and resources">
+        <div class="page-masthead__head">
+          <div class="page-masthead__title-block">
+            <div class="page-masthead__eyebrow">
+              <span class="page-masthead__logo">Vybe</span>
+              <span class="page-masthead__pill">Oracle API</span>
+            </div>
+            <h1 class="page-masthead__title">
+              Solana <span class="page-masthead__title-accent">Pyth</span> API
+            </h1>
+            <p class="page-masthead__description">
+              Browse Vybe’s Pyth oracle endpoints: price feeds, live USD prices, OHLC candles,
+              historical price series, and product metadata — in one demo.
+            </p>
+          </div>
+        </div>
+        <nav class="page-masthead__nav" aria-label="Documentation and community links">
+          <div class="page-masthead__nav-row page-masthead__nav-row--primary">
+            <div class="page-masthead__nav-cluster">
+              <div class="page-masthead__group page-masthead__group--repo">
+                <span class="page-masthead__label">Repository</span>
+                <div class="page-masthead__btns">
+                  <a
+                    class="page-masthead__btn page-masthead__btn--github"
+                    href="https://github.com/vybenetwork/solana-pyth-api"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span class="page-masthead__btn-icon page-masthead__btn-icon--github" aria-hidden="true"></span>
+                    Clone this repo
+                  </a>
+                </div>
+              </div>
+              <div class="page-masthead__group">
+                <span class="page-masthead__label">API Key</span>
+                <div class="page-masthead__btns">
+                  <a
+                    class="page-masthead__btn page-masthead__btn--docs"
+                    href="https://vybe.fyi/api-pricing"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span class="page-masthead__btn-icon page-masthead__btn-icon--docs" aria-hidden="true"></span>
+                    <span class="page-masthead__btn-text">Get a free Vybe API key</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="page-masthead__group page-masthead__group--endpoints">
+              <span class="page-masthead__label">Main Endpoint</span>
+              <div class="page-masthead__btns">
+                <a
+                  class="page-masthead__btn page-masthead__btn--api"
+                  href="https://docs.vybenetwork.com/reference/get_pyth_price_product_pairs_v4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span class="page-masthead__btn-icon page-masthead__btn-icon--endpoint" aria-hidden="true"></span>
+                  <span class="page-masthead__btn-text"
+                    ><span class="page-masthead__btn-prefix">Docs:</span> Pyth Price Feeds</span
+                  >
+                </a>
+              </div>
+            </div>
+            <div class="page-masthead__group page-masthead__group--community">
+              <span class="page-masthead__label">Community</span>
+              <div class="page-masthead__btns">
+                <a
+                  class="page-masthead__btn page-masthead__btn--social"
+                  href="https://t.me/VybeNetwork_Official"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span class="page-masthead__btn-icon page-masthead__btn-icon--telegram" aria-hidden="true"></span>
+                  Telegram Support
+                </a>
+                <a
+                  class="page-masthead__btn page-masthead__btn--social"
+                  href="https://x.com/Vybe_Network"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span class="page-masthead__btn-icon page-masthead__btn-icon--x" aria-hidden="true"></span>
+                  Follow Us on X
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="page-masthead__nav-row page-masthead__nav-row--secondary-endpoints">
+            <div class="page-masthead__group page-masthead__group--secondary-endpoints">
+              <span class="page-masthead__label">Pyth Endpoints Used</span>
+              <div class="page-masthead__btns page-masthead__btns--secondary-endpoints">
+                <a
+                  class="page-masthead__btn page-masthead__btn--api"
+                  href="https://docs.vybenetwork.com/reference/get_pyth_price_v4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span class="page-masthead__btn-icon page-masthead__btn-icon--endpoint" aria-hidden="true"></span>
+                  <span class="page-masthead__btn-text"
+                    ><span class="page-masthead__btn-prefix">Docs:</span> Current Price</span
+                  >
+                </a>
+                <a
+                  class="page-masthead__btn page-masthead__btn--api"
+                  href="https://docs.vybenetwork.com/reference/get_pyth_price_ohlc_v4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span class="page-masthead__btn-icon page-masthead__btn-icon--endpoint" aria-hidden="true"></span>
+                  <span class="page-masthead__btn-text"
+                    ><span class="page-masthead__btn-prefix">Docs:</span> Price Candles</span
+                  >
+                </a>
+                <a
+                  class="page-masthead__btn page-masthead__btn--api"
+                  href="https://docs.vybenetwork.com/reference/get_pyth_price_ts_v4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span class="page-masthead__btn-icon page-masthead__btn-icon--endpoint" aria-hidden="true"></span>
+                  <span class="page-masthead__btn-text"
+                    ><span class="page-masthead__btn-prefix">Docs:</span> Price History</span
+                  >
+                </a>
+                <a
+                  class="page-masthead__btn page-masthead__btn--api"
+                  href="https://docs.vybenetwork.com/reference/get_pyth_product_v4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span class="page-masthead__btn-icon page-masthead__btn-icon--endpoint" aria-hidden="true"></span>
+                  <span class="page-masthead__btn-text"
+                    ><span class="page-masthead__btn-prefix">Docs:</span> Product</span
+                  >
+                </a>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      <section class="panel pyth-controls-panel" aria-labelledby="pythControlsTitle">
+        <div class="section-header">
+          <div class="section-header__title-row">
+            <span class="section-header__dot" aria-hidden="true"></span>
+            <h2 id="pythControlsTitle" class="section-header__title">Remote Filters</h2>
+          </div>
+          <div class="section-lede meta remote-filters-help">
+            <strong>Remote filters</strong> call Vybe
+            <code>GET /v4/oracle/pyth/*</code>
+            for feeds, live price, candles, history, and product metadata.
+          </div>
+        </div>
+
+        <div class="filters-grid pyth-filters">
+          <label class="filter-field">
+            <span class="filter-label">Search feeds</span>
+            <input
+              id="feedSearch"
+              type="search"
+              placeholder="Symbol, price feed, or product address"
+              autocomplete="off"
+            />
+          </label>
+          <label class="filter-field">
+            <span class="filter-label">Resolution</span>
+            <select id="resolution">
+              <option value="1h">1h</option>
+              <option value="1d" selected>1d</option>
+              <option value="1w">1w</option>
+              <option value="1m">1m</option>
+            </select>
+          </label>
+          <label class="filter-field">
+            <span class="filter-label">Lookback (days)</span>
+            <select id="lookbackDays">
+              <option value="7">7</option>
+              <option value="30" selected>30</option>
+              <option value="90">90</option>
+              <option value="180">180</option>
+              <option value="365">365</option>
+            </select>
+          </label>
+          <label class="filter-field">
+            <span class="filter-label">Chart type</span>
+            <select id="chartType">
+              <option value="candles" selected>Candles (OHLC)</option>
+              <option value="history">Price history</option>
+            </select>
+          </label>
+          <label class="filter-field filter-field--checkbox">
+            <span class="filter-label">Close→open gaps</span>
+            <input id="eliminateGaps" type="checkbox" checked />
+          </label>
+        </div>
+
+        <div class="pyth-quick-picks" id="quickPicks" aria-label="Suggested feeds">
+          <span class="filter-label">Suggested</span>
+          <div class="pyth-quick-picks__btns" id="quickPickBtns"></div>
+        </div>
+
+        <div class="actions-row">
+          <button type="button" id="loadFeedsBtn" class="vybe-action-btn">Load feeds</button>
+          <button type="button" id="refreshBtn" class="vybe-action-btn" disabled>Refresh selected</button>
+          <button type="button" id="exportCsvBtn" class="vybe-action-btn" disabled>Export CSV</button>
+          <span id="statusLine" class="meta" role="status"></span>
+        </div>
+      </section>
+
+      <section class="panel pyth-detail-panel" aria-labelledby="pythDetailTitle">
+        <div class="section-header">
+          <div class="section-header__title-row">
+            <span class="section-header__dot" aria-hidden="true"></span>
+            <h2 id="pythDetailTitle" class="section-header__title">Selected Feed</h2>
+          </div>
+          <p id="selectedFeedMeta" class="section-lede meta">Pick a feed to load live price, product, and chart.</p>
+        </div>
+
+        <div class="pyth-cards" id="detailCards">
+          <article class="pyth-card" id="priceCard">
+            <h3 class="pyth-card__title">Live price</h3>
+            <p class="pyth-card__value" id="priceUsd">—</p>
+            <dl class="pyth-card__meta" id="priceMeta"></dl>
+          </article>
+          <article class="pyth-card" id="productCard">
+            <h3 class="pyth-card__title">Product</h3>
+            <p class="pyth-card__value pyth-card__value--sm" id="productSymbol">—</p>
+            <dl class="pyth-card__meta" id="productMeta"></dl>
+          </article>
+        </div>
+
+        <div class="pyth-chart-wrap">
+          <div id="chart" class="pyth-chart" aria-label="Price chart"></div>
+          <p id="chartEmpty" class="meta pyth-chart-empty">No chart data yet.</p>
+        </div>
+      </section>
+
+      <section class="panel pyth-feeds-panel" aria-labelledby="pythFeedsTitle">
+        <div class="section-header">
+          <div class="section-header__title-row">
+            <span class="section-header__dot" aria-hidden="true"></span>
+            <h2 id="pythFeedsTitle" class="section-header__title">Price Feeds</h2>
+          </div>
+          <p id="feedsMeta" class="section-lede meta">Load feeds to browse Pyth products.</p>
+        </div>
+        <div class="table-wrap">
+          <table class="holders-table pyth-feeds-table" id="feedsTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Symbol</th>
+                <th>Price feed</th>
+                <th>Product</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="feedsBody">
+              <tr class="holders-row holders-row--placeholder">
+                <td colspan="5" class="meta">No feeds loaded yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+    <script src="app.js?v=1"></script>
+  </body>
+</html>

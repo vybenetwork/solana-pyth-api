@@ -1,0 +1,39 @@
+{
+  "name": "solana-pyth-api",
+  "version": "1.0.0",
+  "description": "Solana Pyth oracle API demo: Vybe price feeds, live prices, candles, price history, and product metadata.",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "start": "tsx src/server.ts",
+    "dev": "tsx src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "deploy:vm": "bash scripts/deploy-to-vm.sh",
+    "redeploy:vm": "bash scripts/redeploy-vm.sh"
+  },
+  "keywords": [
+    "solana",
+    "pyth",
+    "oracle",
+    "ohlc",
+    "price",
+    "vybe",
+    "api"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "axios": "1.7.9",
+    "dotenv": "16.4.5",
+    "express": "4.21.1"
+  },
+  "devDependencies": {
+    "@types/express": "5.0.0",
+    "@types/node": "22.10.1",
+    "tsx": "4.19.2",
+    "typescript": "5.6.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

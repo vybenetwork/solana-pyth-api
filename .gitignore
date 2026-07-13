@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+
+# Keep locally only (same as other Vybe demos)
+deploy/
+scripts/
+DEPLOY.md
