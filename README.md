@@ -53,6 +53,6 @@ Open http://localhost:3009
 
 - [Solana OHLC API](https://github.com/vybenetwork/solana-ohlc-api) — DEX token/market candles
 - [Solana Trades API](https://github.com/vybenetwork/solana-trades-api) — historical trade data
-- [Solana Wallet Balances API](https://github.com/vybenetwork/solana-balances-api) — wallet holdings
+- [Solana Balances API](https://github.com/vybenetwork/solana-balances-api) — wallet holdings
 
 This repo focuses on **Pyth oracle** data only (not DEX OHLC/trades).
