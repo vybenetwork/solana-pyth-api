@@ -46,15 +46,6 @@ export async function withRetry<T>(fn: () => Promise<T>): Promise<T> {
       return await fn();
     } catch (err) {
       lastErr = err;
-      const status =
-        err &&
-        typeof err === 'object' &&
-        'response' in err &&
-        (err as { response?: { status?: number } }).response?.status;
-      // Don't retry client errors (incl. 404 for feeds without series history).
-      if (typeof status === 'number' && status >= 400 && status < 500) {
-        throw err;
-      }
       if (attempt < VYBE_MAX_RETRIES) {
         await new Promise((r) => setTimeout(r, VYBE_RETRY_DELAY_MS));
         continue;

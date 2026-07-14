@@ -86,31 +86,6 @@ export async function getPythPrice(
   return res.data;
 }
 
-function isNotFoundError(err: unknown): boolean {
-  return Boolean(
-    err &&
-      typeof err === 'object' &&
-      'response' in err &&
-      (err as { response?: { status?: number } }).response?.status === 404,
-  );
-}
-
-/**
- * Some Pyth feeds return live price but have no published candle / time-series
- * history (Vybe 404). Treat that as an empty series instead of a hard error.
- */
-async function fetchSeriesOrEmpty<T>(
-  fn: () => Promise<{ data: { data?: T[] } }>,
-): Promise<T[]> {
-  try {
-    const res = await withRetry(fn);
-    return Array.isArray(res.data?.data) ? res.data.data : [];
-  } catch (err) {
-    if (isNotFoundError(err)) return [];
-    throw err;
-  }
-}
-
 /** Historical price time series for a Pyth price feed. */
 export async function getPythPriceHistory(
   http: AxiosInstance,
@@ -118,7 +93,7 @@ export async function getPythPriceHistory(
   params: TimeSeriesParams = {},
 ): Promise<PythPriceFeed[]> {
   const feed = cleanPubkey(priceFeedAddress, 'priceFeedAddress');
-  return fetchSeriesOrEmpty(() =>
+  const res = await withRetry(() =>
     http.get<{ data?: PythPriceFeed[] }>(
       `/v4/oracle/pyth/pricefeeds/${encodeURIComponent(feed)}/price-ts`,
       {
@@ -132,6 +107,7 @@ export async function getPythPriceHistory(
       },
     ),
   );
+  return Array.isArray(res.data?.data) ? res.data.data : [];
 }
 
 /** OHLC candles for a Pyth price feed. */
@@ -141,7 +117,7 @@ export async function getPythCandles(
   params: CandlesParams = {},
 ): Promise<PythPriceOhlc[]> {
   const feed = cleanPubkey(priceFeedAddress, 'priceFeedAddress');
-  return fetchSeriesOrEmpty(() =>
+  const res = await withRetry(() =>
     http.get<{ data?: PythPriceOhlc[] }>(
       `/v4/oracle/pyth/pricefeeds/${encodeURIComponent(feed)}/candles`,
       {
@@ -156,6 +132,7 @@ export async function getPythCandles(
       },
     ),
   );
+  return Array.isArray(res.data?.data) ? res.data.data : [];
 }
 
 /** Product metadata for a Pyth product account. */
