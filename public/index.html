@@ -26,7 +26,7 @@
       content="Explore Solana Pyth API price feeds with the Vybe Solana API: live USD prices, OHLC candles, historical price series, product metadata and oracle tools."
     />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="app.css?v=1" />
+    <link rel="stylesheet" href="app.css?v=2" />
     <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
   </head>
   <body>
@@ -131,7 +131,7 @@
                 >
                   <span class="page-masthead__btn-icon page-masthead__btn-icon--endpoint" aria-hidden="true"></span>
                   <span class="page-masthead__btn-text"
-                    ><span class="page-masthead__btn-prefix">Docs:</span> Current Price</span
+                    ><span class="page-masthead__btn-prefix">Docs:</span> Pyth Current Price</span
                   >
                 </a>
                 <a
@@ -142,7 +142,7 @@
                 >
                   <span class="page-masthead__btn-icon page-masthead__btn-icon--endpoint" aria-hidden="true"></span>
                   <span class="page-masthead__btn-text"
-                    ><span class="page-masthead__btn-prefix">Docs:</span> Price Candles</span
+                    ><span class="page-masthead__btn-prefix">Docs:</span> Pyth Price Candles</span
                   >
                 </a>
                 <a
@@ -153,7 +153,7 @@
                 >
                   <span class="page-masthead__btn-icon page-masthead__btn-icon--endpoint" aria-hidden="true"></span>
                   <span class="page-masthead__btn-text"
-                    ><span class="page-masthead__btn-prefix">Docs:</span> Price History</span
+                    ><span class="page-masthead__btn-prefix">Docs:</span> Pyth Price History</span
                   >
                 </a>
                 <a
@@ -164,8 +164,69 @@
                 >
                   <span class="page-masthead__btn-icon page-masthead__btn-icon--endpoint" aria-hidden="true"></span>
                   <span class="page-masthead__btn-text"
-                    ><span class="page-masthead__btn-prefix">Docs:</span> Product</span
+                    ><span class="page-masthead__btn-prefix">Docs:</span> Pyth Product</span
                   >
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="page-masthead__nav-row page-masthead__nav-row--related">
+            <div class="page-masthead__group page-masthead__group--related">
+              <span class="page-masthead__label">Other Related API Demos</span>
+              <div class="page-masthead__btns page-masthead__btns--related">
+                <a class="page-masthead__btn page-masthead__btn--demo page-masthead__btn--demo-token" href="https://solana-token-metadata-api.vybenetwork.com/">
+                  <span class="page-masthead__demo-preview" aria-hidden="true">
+                    <img src="https://solana-token-metadata-api.vybenetwork.com/solana-token-stats-metadata-api.jpg" alt="" loading="lazy" decoding="async" />
+                  </span>
+                  <span class="page-masthead__btn-text">Token Metadata API</span>
+                </a>
+                <a class="page-masthead__btn page-masthead__btn--demo page-masthead__btn--demo-ohlc" href="https://solana-ohlc-api.vybenetwork.com/">
+                  <span class="page-masthead__demo-preview" aria-hidden="true">
+                    <img src="https://solana-ohlc-api.vybenetwork.com/solana-ohlc-candlestick-data-api.jpg" alt="" loading="lazy" decoding="async" />
+                  </span>
+                  <span class="page-masthead__btn-text">OHLC Candles API</span>
+                </a>
+                <a class="page-masthead__btn page-masthead__btn--demo page-masthead__btn--demo-trades" href="https://solana-trades-api.vybenetwork.com/">
+                  <span class="page-masthead__demo-preview" aria-hidden="true">
+                    <img src="https://solana-trades-api.vybenetwork.com/solana-historical-trade-data-api.jpg" alt="" loading="lazy" decoding="async" />
+                  </span>
+                  <span class="page-masthead__btn-text">Historical Trades API</span>
+                </a>
+                <a class="page-masthead__btn page-masthead__btn--demo page-masthead__btn--demo-swap" href="https://solana-swap-api.vybenetwork.com/">
+                  <span class="page-masthead__demo-preview" aria-hidden="true">
+                    <img src="https://solana-swap-api.vybenetwork.com/solana-swap-api-app.jpg" alt="" loading="lazy" decoding="async" />
+                  </span>
+                  <span class="page-masthead__btn-text">Swap API &amp; Router</span>
+                </a>
+                <a class="page-masthead__btn page-masthead__btn--demo page-masthead__btn--demo-wallet" href="https://solana-trader-pnl-api.vybenetwork.com/">
+                  <span class="page-masthead__demo-preview" aria-hidden="true">
+                    <img src="https://solana-trader-pnl-api.vybenetwork.com/solana-wallet-pnl-profit-and-loss-api-app.jpg" alt="" loading="lazy" decoding="async" />
+                  </span>
+                  <span class="page-masthead__btn-text">Trader PnL API</span>
+                </a>
+                <a class="page-masthead__btn page-masthead__btn--demo page-masthead__btn--demo-holders" href="https://solana-top-holders-api.vybenetwork.com/">
+                  <span class="page-masthead__demo-preview" aria-hidden="true">
+                    <img src="https://solana-top-holders-api.vybenetwork.com/solana-top-token-holders-and-whales-api-app.jpg" alt="" loading="lazy" decoding="async" />
+                  </span>
+                  <span class="page-masthead__btn-text">Top Holders API</span>
+                </a>
+                <a class="page-masthead__btn page-masthead__btn--demo page-masthead__btn--demo-traders" href="https://solana-top-traders-api.vybenetwork.com/">
+                  <span class="page-masthead__demo-preview" aria-hidden="true">
+                    <img src="https://solana-top-traders-api.vybenetwork.com/solana-top-traders-wallets-and-tokens-api-app.jpg" alt="" loading="lazy" decoding="async" />
+                  </span>
+                  <span class="page-masthead__btn-text">Top Traders API</span>
+                </a>
+                <a class="page-masthead__btn page-masthead__btn--demo page-masthead__btn--demo-defi" href="https://solana-defi-positions-api.vybenetwork.com/">
+                  <span class="page-masthead__demo-preview" aria-hidden="true">
+                    <img src="https://solana-defi-positions-api.vybenetwork.com/solana-defi-positions-api.jpg" alt="" loading="lazy" decoding="async" />
+                  </span>
+                  <span class="page-masthead__btn-text">DeFi Positions API</span>
+                </a>
+                <a class="page-masthead__btn page-masthead__btn--demo page-masthead__btn--demo-balances" href="https://solana-balances-api.vybenetwork.com/">
+                  <span class="page-masthead__demo-preview" aria-hidden="true">
+                    <img src="https://solana-balances-api.vybenetwork.com/solana-wallet-balances-api.jpg" alt="" loading="lazy" decoding="async" />
+                  </span>
+                  <span class="page-masthead__btn-text">Wallet Balances API</span>
                 </a>
               </div>
             </div>
@@ -197,23 +258,79 @@
             />
           </label>
           <label class="filter-field">
-            <span class="filter-label">Resolution</span>
-            <select id="resolution">
-              <option value="1h">1h</option>
-              <option value="1d" selected>1d</option>
-              <option value="1w">1w</option>
-              <option value="1m">1m</option>
-            </select>
+            <span class="filter-label">Filter priceFeedAddress</span>
+            <input
+              id="filterPriceFeed"
+              type="text"
+              placeholder="Optional Vybe list filter"
+              spellcheck="false"
+              autocomplete="off"
+            />
           </label>
           <label class="filter-field">
-            <span class="filter-label">Lookback (days)</span>
-            <select id="lookbackDays">
-              <option value="7">7</option>
-              <option value="30" selected>30</option>
-              <option value="90">90</option>
-              <option value="180">180</option>
-              <option value="365">365</option>
+            <span class="filter-label">Filter productAddress</span>
+            <input
+              id="filterProduct"
+              type="text"
+              placeholder="Optional Vybe list filter"
+              spellcheck="false"
+              autocomplete="off"
+            />
+          </label>
+          <label class="filter-field">
+            <span class="filter-label">Resolution</span>
+            <select id="resolution" title="Candle / history bucket size">
+              <option value="1m" selected>1 minute</option>
+              <option value="5m">5 minutes</option>
+              <option value="15m">15 minutes</option>
+              <option value="30m">30 minutes</option>
+              <option value="1h">1 hour</option>
+              <option value="4h">4 hours</option>
+              <option value="1d">1 day</option>
+              <option value="1w">1 week</option>
+              <option value="1y">1 year</option>
+              <option value="custom">Custom seconds…</option>
             </select>
+          </label>
+          <label class="filter-field" id="customResolutionWrap" hidden>
+            <span class="filter-label">Custom seconds</span>
+            <input id="customResolution" type="number" min="1" step="1" placeholder="e.g. 60" />
+          </label>
+          <label class="filter-field">
+            <span class="filter-label">Time range mode</span>
+            <select id="rangeMode">
+              <option value="lookback" selected>Lookback preset</option>
+              <option value="custom">Custom start / end</option>
+            </select>
+          </label>
+          <label class="filter-field" id="lookbackWrap">
+            <span class="filter-label">Lookback</span>
+            <select id="lookback" title="How far back to fetch">
+              <option value="3600">1 hour</option>
+              <option value="21600" selected>6 hours</option>
+              <option value="43200">12 hours</option>
+              <option value="86400">1 day</option>
+              <option value="604800">7 days</option>
+              <option value="2592000">30 days</option>
+              <option value="7776000">90 days</option>
+              <option value="31536000">365 days</option>
+            </select>
+          </label>
+          <label class="filter-field" id="timeStartWrap" hidden>
+            <span class="filter-label">timeStart</span>
+            <input id="timeStart" type="datetime-local" />
+          </label>
+          <label class="filter-field" id="timeEndWrap" hidden>
+            <span class="filter-label">timeEnd</span>
+            <input id="timeEnd" type="datetime-local" />
+          </label>
+          <label class="filter-field">
+            <span class="filter-label">limit</span>
+            <input id="seriesLimit" type="number" min="1" max="5000" step="1" value="1000" />
+          </label>
+          <label class="filter-field">
+            <span class="filter-label">page</span>
+            <input id="seriesPage" type="number" min="0" step="1" value="0" />
           </label>
           <label class="filter-field">
             <span class="filter-label">Chart type</span>
@@ -223,7 +340,7 @@
             </select>
           </label>
           <label class="filter-field filter-field--checkbox">
-            <span class="filter-label">Close→open gaps</span>
+            <span class="filter-label">eliminateCloseToOpenGaps</span>
             <input id="eliminateGaps" type="checkbox" checked />
           </label>
         </div>
@@ -236,6 +353,8 @@
         <div class="actions-row">
           <button type="button" id="loadFeedsBtn" class="vybe-action-btn">Load feeds</button>
           <button type="button" id="refreshBtn" class="vybe-action-btn" disabled>Refresh selected</button>
+          <button type="button" id="prevPageBtn" class="vybe-action-btn" disabled>Prev page</button>
+          <button type="button" id="nextPageBtn" class="vybe-action-btn" disabled>Next page</button>
           <button type="button" id="exportCsvBtn" class="vybe-action-btn" disabled>Export CSV</button>
           <span id="statusLine" class="meta" role="status"></span>
         </div>
@@ -297,6 +416,6 @@
         </div>
       </section>
     </div>
-    <script src="app.js?v=1"></script>
+    <script src="app.js?v=4"></script>
   </body>
 </html>
