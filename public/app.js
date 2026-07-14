@@ -1,14 +1,28 @@
 'use strict';
 
-const SUGGESTED_SYMBOLS = ['Crypto.BTC/USD', 'Crypto.SOL/USD', 'Crypto.ETH/USD', 'Crypto.USDC/USD'];
+const SUGGESTED_SYMBOLS = ['Crypto.BTC/USD', 'Crypto.SOL/USD', 'Metal.XAU/USD', 'Equity.US.SPY/USD'];
 
 const feedSearch = document.getElementById('feedSearch');
+const filterPriceFeed = document.getElementById('filterPriceFeed');
+const filterProduct = document.getElementById('filterProduct');
 const resolutionSelect = document.getElementById('resolution');
-const lookbackSelect = document.getElementById('lookbackDays');
+const customResolutionWrap = document.getElementById('customResolutionWrap');
+const customResolutionInput = document.getElementById('customResolution');
+const rangeModeSelect = document.getElementById('rangeMode');
+const lookbackWrap = document.getElementById('lookbackWrap');
+const lookbackSelect = document.getElementById('lookback');
+const timeStartWrap = document.getElementById('timeStartWrap');
+const timeEndWrap = document.getElementById('timeEndWrap');
+const timeStartInput = document.getElementById('timeStart');
+const timeEndInput = document.getElementById('timeEnd');
+const seriesLimitInput = document.getElementById('seriesLimit');
+const seriesPageInput = document.getElementById('seriesPage');
 const chartTypeSelect = document.getElementById('chartType');
 const eliminateGapsInput = document.getElementById('eliminateGaps');
 const loadFeedsBtn = document.getElementById('loadFeedsBtn');
 const refreshBtn = document.getElementById('refreshBtn');
+const prevPageBtn = document.getElementById('prevPageBtn');
+const nextPageBtn = document.getElementById('nextPageBtn');
 const exportCsvBtn = document.getElementById('exportCsvBtn');
 const statusLine = document.getElementById('statusLine');
 const feedsBody = document.getElementById('feedsBody');
@@ -29,6 +43,8 @@ let selectedFeed = null;
 /** @type {Array<object>} */
 let lastSeries = [];
 let lastSeriesKind = 'candles';
+let lastFetchedPage = 0;
+let lastFetchedLimit = 1000;
 
 let chart = null;
 let candleSeries = null;
@@ -54,6 +70,51 @@ function shorten(addr, left = 4, right = 4) {
   return `${a.slice(0, left)}…${a.slice(-right)}`;
 }
 
+const SOLSCAN_ACCOUNT = 'https://solscan.io/account/';
+const EXTERNAL_LINK_SVG =
+  '<svg class="pyth-solscan-link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg>';
+
+function solscanAccountLinkHtml(address) {
+  const addr = String(address || '').trim();
+  if (!addr) return '<span class="meta">—</span>';
+  const href = `${SOLSCAN_ACCOUNT}${encodeURIComponent(addr)}`;
+  return `<a class="pyth-solscan-link" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer" title="Open on Solscan"><span class="pyth-solscan-link__text">${escapeHtml(addr)}</span>${EXTERNAL_LINK_SVG}</a>`;
+}
+
+function symbolCategory(symbol) {
+  const raw = String(symbol || '').trim();
+  if (!raw) return '';
+  return raw.split('.')[0] || '';
+}
+
+/** Map Pyth symbol prefix → icon class key. */
+function categoryIconKey(symbol) {
+  switch (symbolCategory(symbol).toLowerCase()) {
+    case 'crypto':
+      return 'crypto';
+    case 'equity':
+      return 'equity';
+    case 'fx':
+      return 'fx';
+    case 'metal':
+      return 'metal';
+    default:
+      return 'other';
+  }
+}
+
+function categoryIconHtml(symbol) {
+  const cat = symbolCategory(symbol) || 'Other';
+  const key = categoryIconKey(symbol);
+  return `<span class="pyth-cat-icon pyth-cat-icon--${key}" title="${escapeHtml(cat)}" aria-label="${escapeHtml(cat)}"></span>`;
+}
+
+function symbolWithIconHtml(symbol) {
+  const label = symbol || '—';
+  const key = categoryIconKey(symbol);
+  return `<span class="pyth-symbol pyth-symbol--${key}">${categoryIconHtml(symbol)}<strong>${escapeHtml(label)}</strong></span>`;
+}
+
 function formatUsd(raw) {
   const n = Number(raw);
   if (!Number.isFinite(n)) return String(raw ?? '—');
@@ -72,11 +133,104 @@ function formatTs(unixSec) {
   return new Date(n * 1000).toLocaleString();
 }
 
+function toDatetimeLocalValue(unixSec) {
+  const d = new Date(unixSec * 1000);
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function parseDatetimeLocal(value) {
+  const raw = String(value || '').trim();
+  if (!raw) return null;
+  const ms = Date.parse(raw);
+  if (!Number.isFinite(ms)) return null;
+  return Math.floor(ms / 1000);
+}
+
+function syncRangeModeUi() {
+  const custom = rangeModeSelect?.value === 'custom';
+  if (lookbackWrap) lookbackWrap.hidden = custom;
+  if (timeStartWrap) timeStartWrap.hidden = !custom;
+  if (timeEndWrap) timeEndWrap.hidden = !custom;
+  if (custom && timeStartInput && timeEndInput && !timeStartInput.value) {
+    const end = Math.floor(Date.now() / 1000);
+    const start = end - Number(lookbackSelect?.value || 21600);
+    timeEndInput.value = toDatetimeLocalValue(end);
+    timeStartInput.value = toDatetimeLocalValue(start);
+  }
+}
+
+function syncResolutionUi() {
+  const custom = resolutionSelect?.value === 'custom';
+  if (customResolutionWrap) customResolutionWrap.hidden = !custom;
+}
+
+function getResolution() {
+  if (resolutionSelect?.value === 'custom') {
+    const n = Number(customResolutionInput?.value);
+    if (!Number.isFinite(n) || n <= 0) throw new Error('Custom resolution must be a positive number of seconds.');
+    return String(Math.floor(n));
+  }
+  return resolutionSelect?.value || '1m';
+}
+
+function getSeriesLimit() {
+  const n = Number(seriesLimitInput?.value);
+  if (!Number.isFinite(n) || n <= 0) return 1000;
+  return Math.min(5000, Math.floor(n));
+}
+
+function getSeriesPage() {
+  const n = Number(seriesPageInput?.value);
+  if (!Number.isFinite(n) || n < 0) return 0;
+  return Math.floor(n);
+}
+
+function setSeriesPage(page) {
+  if (seriesPageInput) seriesPageInput.value = String(Math.max(0, page));
+}
+
+function updatePageButtons() {
+  const page = getSeriesPage();
+  const hasSelection = Boolean(selectedFeed);
+  if (prevPageBtn) prevPageBtn.disabled = !hasSelection || page <= 0;
+  if (nextPageBtn) {
+    nextPageBtn.disabled = !hasSelection || lastSeries.length < lastFetchedLimit;
+  }
+}
+
 function lookbackBounds() {
-  const days = Number(lookbackSelect?.value || 30);
+  const limit = getSeriesLimit();
+  const page = getSeriesPage();
+  if (rangeModeSelect?.value === 'custom') {
+    let timeStart = parseDatetimeLocal(timeStartInput?.value);
+    let timeEnd = parseDatetimeLocal(timeEndInput?.value);
+    if (timeStart == null || timeEnd == null) {
+      throw new Error('Custom range requires both timeStart and timeEnd.');
+    }
+    if (timeEnd <= timeStart) throw new Error('timeEnd must be after timeStart.');
+    return { timeStart, timeEnd, limit, page };
+  }
+  const seconds = Number(lookbackSelect?.value || 21600);
   const timeEnd = Math.floor(Date.now() / 1000);
-  const timeStart = timeEnd - Math.max(1, days) * 24 * 60 * 60;
-  return { timeStart, timeEnd, limit: 500 };
+  const span = Number.isFinite(seconds) && seconds > 0 ? seconds : 21600;
+  return { timeStart: timeEnd - span, timeEnd, limit, page };
+}
+
+/** Suggest a lookback that fits the chosen resolution without over-fetching. */
+function preferLookbackForResolution(resolution) {
+  const map = {
+    '1m': '21600',
+    '5m': '86400',
+    '15m': '86400',
+    '30m': '604800',
+    '1h': '604800',
+    '4h': '2592000',
+    '1d': '7776000',
+    '1w': '31536000',
+    '1y': '31536000',
+  };
+  return map[resolution] || null;
 }
 
 async function apiGet(path) {
@@ -102,11 +256,33 @@ function filteredFeeds() {
   });
 }
 
+function countCategoryFeeds(feeds) {
+  const counts = { crypto: 0, equity: 0, fx: 0, metal: 0, other: 0 };
+  for (const f of feeds) {
+    counts[categoryIconKey(f.symbol)] += 1;
+  }
+  return counts;
+}
+
+function renderCategoryStats() {
+  const counts = countCategoryFeeds(allFeeds);
+  const total = allFeeds.length;
+  const totalEl = document.querySelector('[data-cat-count="total"]');
+  if (totalEl) totalEl.textContent = total.toLocaleString();
+  for (const key of ['crypto', 'equity', 'fx', 'metal', 'other']) {
+    const el = document.querySelector(`[data-cat-count="${key}"]`);
+    if (!el) continue;
+    const main = el.querySelector('.trades-summary-value__main');
+    const suffix = el.querySelector('.trades-summary-value__suffix');
+    if (main) main.textContent = counts[key].toLocaleString();
+    else el.textContent = counts[key].toLocaleString();
+    if (suffix) suffix.textContent = ` / ${total.toLocaleString()}`;
+  }
+}
+
 function renderFeedsTable() {
   const rows = filteredFeeds();
-  feedsMeta.textContent = `${rows.length.toLocaleString()} feed(s)${
-    feedSearch?.value?.trim() ? ' matching filter' : ''
-  } · ${allFeeds.length.toLocaleString()} total`;
+  renderCategoryStats();
 
   if (!rows.length) {
     feedsBody.innerHTML =
@@ -120,9 +296,9 @@ function renderFeedsTable() {
       const selected = selectedFeed?.priceFeedAddress === f.priceFeedAddress ? ' is-selected' : '';
       return `<tr class="holders-row pyth-feed-row${selected}" data-feed="${escapeHtml(f.priceFeedAddress)}">
         <td>${i + 1}</td>
-        <td><strong>${escapeHtml(f.symbol || '—')}</strong></td>
-        <td><code title="${escapeHtml(f.priceFeedAddress)}">${escapeHtml(shorten(f.priceFeedAddress, 6, 6))}</code></td>
-        <td><code title="${escapeHtml(f.productAddress)}">${escapeHtml(shorten(f.productAddress, 6, 6))}</code></td>
+        <td>${symbolWithIconHtml(f.symbol)}</td>
+        <td>${solscanAccountLinkHtml(f.priceFeedAddress)}</td>
+        <td>${solscanAccountLinkHtml(f.productAddress)}</td>
         <td><button type="button" class="vybe-action-btn vybe-action-btn--sm" data-select-feed="${escapeHtml(f.priceFeedAddress)}">Select</button></td>
       </tr>`;
     })
@@ -139,7 +315,7 @@ function renderQuickPicks() {
   quickPickBtns.innerHTML = picks
     .map(
       (f) =>
-        `<button type="button" class="vybe-action-btn vybe-action-btn--sm" data-select-feed="${escapeHtml(f.priceFeedAddress)}">${escapeHtml(f.symbol)}</button>`,
+        `<button type="button" class="vybe-action-btn vybe-action-btn--sm pyth-suggested-btn" data-select-feed="${escapeHtml(f.priceFeedAddress)}">${categoryIconHtml(f.symbol)}<span>${escapeHtml(f.symbol)}</span></button>`,
     )
     .join('');
 }
@@ -156,7 +332,13 @@ function ensureChart() {
       horzLines: { color: 'rgba(255,255,255,0.04)' },
     },
     rightPriceScale: { borderColor: 'rgba(255,255,255,0.08)' },
-    timeScale: { borderColor: 'rgba(255,255,255,0.08)' },
+    timeScale: {
+      borderColor: 'rgba(255,255,255,0.08)',
+      timeVisible: true,
+      secondsVisible: false,
+      rightOffset: 0,
+      fixLeftEdge: true,
+    },
     width: chartEl.clientWidth,
     height: 360,
   });
@@ -264,13 +446,28 @@ async function loadFeeds() {
   setStatus('Loading price feeds…');
   loadFeedsBtn.disabled = true;
   try {
-    const body = await apiGet('/api/pyth/pricefeeds');
+    const qs = new URLSearchParams();
+    const pf = String(filterPriceFeed?.value || '').trim();
+    const prod = String(filterProduct?.value || '').trim();
+    if (pf) qs.set('priceFeedAddress', pf);
+    if (prod) qs.set('productAddress', prod);
+    const path = qs.toString() ? `/api/pyth/pricefeeds?${qs}` : '/api/pyth/pricefeeds';
+    const body = await apiGet(path);
     allFeeds = Array.isArray(body.data) ? body.data : [];
     renderFeedsTable();
     renderQuickPicks();
-    setStatus(`Loaded ${allFeeds.length.toLocaleString()} Pyth feeds.`);
+    const filterNote = pf || prod ? ' (server-filtered)' : '';
+    setStatus(`Loaded ${allFeeds.length.toLocaleString()} Pyth feeds${filterNote}.`);
     const sol = allFeeds.find((f) => f.symbol === 'Crypto.SOL/USD');
     if (sol && !selectedFeed) await selectFeed(sol.priceFeedAddress);
+    else if (selectedFeed) {
+      const still = allFeeds.find((f) => f.priceFeedAddress === selectedFeed.priceFeedAddress);
+      if (!still) {
+        selectedFeed = null;
+        refreshBtn.disabled = true;
+        updatePageButtons();
+      }
+    }
   } catch (err) {
     setStatus(err instanceof Error ? err.message : String(err), true);
   } finally {
@@ -285,20 +482,46 @@ async function selectFeed(feedAddress) {
     return;
   }
   selectedFeed = feed;
+  setSeriesPage(0);
   refreshBtn.disabled = false;
   exportCsvBtn.disabled = true;
   selectedFeedMeta.textContent = `${feed.symbol} · feed ${shorten(feed.priceFeedAddress, 6, 6)} · product ${shorten(feed.productAddress, 6, 6)}`;
   renderFeedsTable();
+  updatePageButtons();
   await refreshSelected();
+}
+
+async function fetchSeries(kind, feed, qs) {
+  const path =
+    kind === 'candles'
+      ? `/api/pyth/pricefeeds/${encodeURIComponent(feed)}/candles?${qs}`
+      : `/api/pyth/pricefeeds/${encodeURIComponent(feed)}/price-ts?${qs}`;
+  try {
+    const body = await apiGet(path);
+    return Array.isArray(body.data) ? body.data : [];
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    // Some feeds have live price but no published OHLC / history (Vybe 404).
+    if (/\b404\b/.test(msg)) return [];
+    throw err;
+  }
 }
 
 async function refreshSelected() {
   if (!selectedFeed) return;
   const feed = selectedFeed.priceFeedAddress;
   const product = selectedFeed.productAddress;
-  const resolution = resolutionSelect?.value || '1d';
-  const { timeStart, timeEnd, limit } = lookbackBounds();
-  const kind = chartTypeSelect?.value === 'history' ? 'history' : 'candles';
+  let resolution;
+  let bounds;
+  try {
+    resolution = getResolution();
+    bounds = lookbackBounds();
+  } catch (err) {
+    setStatus(err instanceof Error ? err.message : String(err), true);
+    return;
+  }
+  const { timeStart, timeEnd, limit, page } = bounds;
+  let kind = chartTypeSelect?.value === 'history' ? 'history' : 'candles';
   const gaps = eliminateGapsInput?.checked !== false;
 
   setStatus(`Loading ${selectedFeed.symbol}…`);
@@ -309,33 +532,58 @@ async function refreshSelected() {
       timeStart: String(timeStart),
       timeEnd: String(timeEnd),
       limit: String(limit),
+      page: String(page),
     });
     if (kind === 'candles') qs.set('eliminateCloseToOpenGaps', gaps ? 'true' : 'false');
 
-    const [price, productBody, seriesBody] = await Promise.all([
+    // Price + product first so a missing series does not blank the cards.
+    const [price, productBody] = await Promise.all([
       apiGet(`/api/pyth/pricefeeds/${encodeURIComponent(feed)}/price`),
       apiGet(`/api/pyth/products/${encodeURIComponent(product)}`),
-      kind === 'candles'
-        ? apiGet(`/api/pyth/pricefeeds/${encodeURIComponent(feed)}/candles?${qs}`)
-        : apiGet(`/api/pyth/pricefeeds/${encodeURIComponent(feed)}/price-ts?${qs}`),
     ]);
-
     renderPrice(price);
     renderProduct(productBody);
-    lastSeries = Array.isArray(seriesBody.data) ? seriesBody.data : [];
+
+    let series = await fetchSeries(kind, feed, qs);
+    // If candles are unavailable, try price history once (and vice versa).
+    if (!series.length && page === 0) {
+      const alt = kind === 'candles' ? 'history' : 'candles';
+      const altQs = new URLSearchParams(qs);
+      if (alt === 'candles') altQs.set('eliminateCloseToOpenGaps', gaps ? 'true' : 'false');
+      else altQs.delete('eliminateCloseToOpenGaps');
+      const altSeries = await fetchSeries(alt, feed, altQs);
+      if (altSeries.length) {
+        kind = alt;
+        series = altSeries;
+        if (chartTypeSelect) chartTypeSelect.value = alt === 'history' ? 'history' : 'candles';
+      }
+    }
+
+    lastSeries = series;
     lastSeriesKind = kind;
+    lastFetchedPage = page;
+    lastFetchedLimit = limit;
     if (kind === 'candles') renderCandleChart(lastSeries);
     else renderHistoryChart(lastSeries);
 
     exportCsvBtn.disabled = lastSeries.length === 0;
-    setStatus(
-      `${selectedFeed.symbol}: ${formatUsd(price.priceUsd)} · ${lastSeries.length} ${kind === 'candles' ? 'candles' : 'points'}`,
-    );
+    updatePageButtons();
+    if (!lastSeries.length) {
+      clearChart();
+      setStatus(
+        `${selectedFeed.symbol}: ${formatUsd(price.priceUsd)} · no ${kind === 'candles' ? 'candle' : 'history'} data (page ${page})`,
+      );
+    } else {
+      setStatus(
+        `${selectedFeed.symbol}: ${formatUsd(price.priceUsd)} · ${lastSeries.length} ${kind === 'candles' ? 'candles' : 'points'} · page ${page} · limit ${limit} · ${resolution}`,
+      );
+    }
   } catch (err) {
     clearChart();
     setStatus(err instanceof Error ? err.message : String(err), true);
   } finally {
     refreshBtn.disabled = false;
+    updatePageButtons();
   }
 }
 
@@ -375,20 +623,63 @@ feedSearch?.addEventListener('input', () => renderFeedsTable());
 loadFeedsBtn?.addEventListener('click', () => void loadFeeds());
 refreshBtn?.addEventListener('click', () => void refreshSelected());
 exportCsvBtn?.addEventListener('click', () => exportCsv());
+prevPageBtn?.addEventListener('click', () => {
+  setSeriesPage(getSeriesPage() - 1);
+  if (selectedFeed) void refreshSelected();
+});
+nextPageBtn?.addEventListener('click', () => {
+  setSeriesPage(getSeriesPage() + 1);
+  if (selectedFeed) void refreshSelected();
+});
 chartTypeSelect?.addEventListener('change', () => {
+  setSeriesPage(0);
   if (selectedFeed) void refreshSelected();
 });
 resolutionSelect?.addEventListener('change', () => {
+  syncResolutionUi();
+  const preferred = preferLookbackForResolution(resolutionSelect.value);
+  if (preferred && lookbackSelect && rangeModeSelect?.value === 'lookback') {
+    lookbackSelect.value = preferred;
+  }
+  setSeriesPage(0);
+  if (resolutionSelect.value !== 'custom' && selectedFeed) void refreshSelected();
+});
+customResolutionInput?.addEventListener('change', () => {
+  setSeriesPage(0);
+  if (selectedFeed) void refreshSelected();
+});
+rangeModeSelect?.addEventListener('change', () => {
+  syncRangeModeUi();
+  setSeriesPage(0);
   if (selectedFeed) void refreshSelected();
 });
 lookbackSelect?.addEventListener('change', () => {
+  setSeriesPage(0);
+  if (selectedFeed) void refreshSelected();
+});
+timeStartInput?.addEventListener('change', () => {
+  setSeriesPage(0);
+  if (selectedFeed) void refreshSelected();
+});
+timeEndInput?.addEventListener('change', () => {
+  setSeriesPage(0);
+  if (selectedFeed) void refreshSelected();
+});
+seriesLimitInput?.addEventListener('change', () => {
+  setSeriesPage(0);
+  if (selectedFeed) void refreshSelected();
+});
+seriesPageInput?.addEventListener('change', () => {
   if (selectedFeed) void refreshSelected();
 });
 eliminateGapsInput?.addEventListener('change', () => {
   if (selectedFeed && chartTypeSelect?.value === 'candles') void refreshSelected();
 });
 
+syncResolutionUi();
+syncRangeModeUi();
 ensureChart();
 clearChart();
 renderQuickPicks();
+updatePageButtons();
 void loadFeeds();

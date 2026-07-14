@@ -1358,7 +1358,9 @@ body {
   gap: 0.45rem;
   padding: 0.52rem 0.85rem;
   border-radius: 9px;
-  border: 1px solid transparent;
+  border: 1px solid #3f3f46;
+  background: #27272a;
+  color: #e4e4e7;
   font-size: 0.78rem;
   font-weight: 600;
   line-height: 1.2;
@@ -1366,6 +1368,13 @@ body {
   white-space: nowrap;
   text-transform: none;
   transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+}
+
+.vybe-action-btn:hover:not(:disabled) {
+  background: #3f3f46;
+  border-color: #52525b;
+  color: #f4f4f5;
+  transform: translateY(-1px);
 }
 
 .vybe-action-btn--fetch {
@@ -1377,6 +1386,19 @@ body {
 .vybe-action-btn--fetch:hover:not(:disabled) {
   background: #22c55e;
   border-color: #22c55e;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.vybe-action-btn--export {
+  background: rgba(59, 130, 246, 0.14);
+  border-color: rgba(59, 130, 246, 0.35);
+  color: #93c5fd;
+}
+
+.vybe-action-btn--export:hover:not(:disabled) {
+  background: #3b82f6;
+  border-color: #3b82f6;
   color: #fff;
   transform: translateY(-1px);
 }
@@ -1403,6 +1425,11 @@ body {
 .vybe-action-btn__icon--fetch {
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M10 2a8 8 0 1 0 4.9 14.3l4.4 4.4a1 1 0 0 0 1.4-1.4l-4.4-4.4A8 8 0 0 0 10 2Zm0 2a6 6 0 1 1 0 12a6 6 0 0 1 0-12Z'/%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M10 2a8 8 0 1 0 4.9 14.3l4.4 4.4a1 1 0 0 0 1.4-1.4l-4.4-4.4A8 8 0 0 0 10 2Zm0 2a6 6 0 1 1 0 12a6 6 0 0 1 0-12Z'/%3E%3C/svg%3E");
+}
+
+.vybe-action-btn__icon--export {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 3a1 1 0 0 1 1 1v9.6l2.3-2.3a1 1 0 1 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4L11 13.6V4a1 1 0 0 1 1-1Zm-7 16a1 1 0 0 1 1 1v1h12v-1a1 1 0 1 1 2 0v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1a1 1 0 0 1 1-1Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 3a1 1 0 0 1 1 1v9.6l2.3-2.3a1 1 0 1 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4L11 13.6V4a1 1 0 0 1 1-1Zm-7 16a1 1 0 0 1 1 1v1h12v-1a1 1 0 1 1 2 0v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1a1 1 0 0 1 1-1Z'/%3E%3C/svg%3E");
 }
 
 .fetch-btn-attention {
@@ -3588,7 +3615,7 @@ tr:hover td {
 }
 
 .holders-section a {
-  color: #3b82f6;
+  color: #9dc0f8;
   text-decoration: none;
 }
 
@@ -5894,7 +5921,7 @@ tr:hover td {
 }
 
 .holders-section a {
-  color: #3b82f6;
+  color: #9dc0f8;
   text-decoration: none;
 }
 
@@ -6087,74 +6114,241 @@ html {
   margin-top: 0;
 }
 /* ---------- Pyth oracle demo extras ---------- */
-.pyth-filters {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.75rem;
-  margin-top: 1rem;
-}
-.filter-field {
+.inputs.panel .field-switch {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   min-width: 0;
 }
-.filter-field input,
-.filter-field select {
-  background: #16161d;
-  border: 1px solid rgba(255,255,255,0.08);
-  color: #e4e4e7;
-  border-radius: 8px;
-  padding: 0.55rem 0.7rem;
-  font: inherit;
-}
-.filter-field--checkbox {
-  justify-content: flex-end;
-}
-.filter-field--checkbox input {
-  width: 1.1rem;
-  height: 1.1rem;
-}
-.filter-label {
-  font-size: 0.75rem;
+
+.inputs.panel .field-switch-header {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: default;
+  font-size: 0.8rem;
   color: #a1a1aa;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
 }
+
+.inputs.panel .field-switch-header .field-switch-title {
+  flex: 0 0 auto;
+}
+
+.inputs.panel .trades-fetch-switch {
+  display: inline-flex;
+  cursor: pointer;
+  align-items: stretch;
+  width: fit-content;
+  height: 35px;
+}
+
+.pyth-filters.remote-filters-fields-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: end;
+  gap: 0.85rem 0.75rem;
+}
+
+.pyth-filters .field {
+  width: 100%;
+  min-width: 0;
+}
+
+.pyth-filters .field input,
+.pyth-filters .field select {
+  min-width: 0;
+  width: 100%;
+}
+
+.field[hidden],
+#customResolutionWrap[hidden],
+#lookbackWrap[hidden],
+#timeStartWrap[hidden],
+#timeEndWrap[hidden] {
+  display: none !important;
+}
+
 .pyth-quick-picks {
-  margin-top: 1rem;
+  margin-top: 0.25rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.6rem;
+  flex: 0 0 100%;
+  width: 100%;
 }
+
 .pyth-quick-picks__btns {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
 }
-.actions-row {
-  margin-top: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.65rem;
+
+.pyth-quick-picks__btns .vybe-action-btn {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.8rem;
 }
+
+.pyth-feeds-table .vybe-action-btn--sm {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+.pyth-solscan-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: none;
+  overflow: visible;
+  color: #7dd3fc;
+  text-decoration: none;
+  font: inherit;
+  font-size: inherit;
+  font-weight: 650;
+  line-height: inherit;
+  white-space: nowrap;
+  transition: color 0.12s ease;
+}
+
+.pyth-solscan-link__text {
+  font: inherit;
+  font-weight: 500;
+  font-size: 8pt;
+}
+
+.pyth-solscan-link:hover {
+  color: #bae6fd;
+  text-decoration: underline;
+}
+
+.pyth-solscan-link__icon {
+  display: block;
+  flex-shrink: 0;
+  width: 0.85em;
+  height: 0.85em;
+  min-width: 12px;
+  min-height: 12px;
+  opacity: 0.95;
+}
+
+.pyth-feeds-table th:nth-child(3),
+.pyth-feeds-table td:nth-child(3),
+.pyth-feeds-table th:nth-child(4),
+.pyth-feeds-table td:nth-child(4) {
+  white-space: nowrap;
+}
+
+.pyth-feeds-table td:nth-child(3) .pyth-solscan-link,
+.pyth-feeds-table td:nth-child(4) .pyth-solscan-link {
+  max-width: none;
+  overflow: visible;
+  text-overflow: unset;
+  font-size: inherit;
+}
+
+.pyth-symbol {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.pyth-symbol strong {
+  font-weight: 650;
+}
+
+.pyth-symbol--crypto strong {
+  color: #a78bfa;
+}
+
+.pyth-symbol--equity strong {
+  color: #fb7185;
+}
+
+.pyth-symbol--fx strong {
+  color: #4ade80;
+}
+
+.pyth-symbol--metal strong {
+  color: #fbbf24;
+}
+
+.pyth-symbol--other strong {
+  color: #22d3ee;
+}
+
+.pyth-cat-icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  background: #a1a1aa;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20Zm0 2a8 8 0 1 1 0 16a8 8 0 0 1 0-16Zm0 11a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5Zm0-8a3 3 0 0 0-3 3a1 1 0 1 0 2 0a1 1 0 1 1 1-1a1 1 0 0 1 0 2a1 1 0 0 0-1 1v1a1 1 0 1 0 2 0v-.2A3 3 0 0 0 12 7Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20Zm0 2a8 8 0 1 1 0 16a8 8 0 0 1 0-16Zm0 11a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5Zm0-8a3 3 0 0 0-3 3a1 1 0 1 0 2 0a1 1 0 1 1 1-1a1 1 0 0 1 0 2a1 1 0 0 0-1 1v1a1 1 0 1 0 2 0v-.2A3 3 0 0 0 12 7Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Crypto — hex / link chain-ish token */
+.pyth-cat-icon--crypto {
+  background: #a78bfa;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2L3.5 6.5v11L12 22l8.5-4.5v-11L12 2Zm0 2.2l6.5 3.4v8.8L12 19.8l-6.5-3.4V7.6L12 4.2Zm0 2.3a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9Zm0 2a2.5 2.5 0 1 1 0 5a2.5 2.5 0 0 1 0-5Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2L3.5 6.5v11L12 22l8.5-4.5v-11L12 2Zm0 2.2l6.5 3.4v8.8L12 19.8l-6.5-3.4V7.6L12 4.2Zm0 2.3a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9Zm0 2a2.5 2.5 0 1 1 0 5a2.5 2.5 0 0 1 0-5Z'/%3E%3C/svg%3E");
+}
+
+/* Equity — rising chart (coral — distinct from purple/green/gold) */
+.pyth-cat-icon--equity {
+  background: #fb7185;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M3 3a1 1 0 0 1 1 1v14h16a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm14.7 4.3a1 1 0 0 1 0 1.4l-3.3 3.3l-2.3-2.3a1 1 0 0 0-1.4 0L6.3 14a1 1 0 1 1-1.4-1.4l4.4-4.4a1 1 0 0 1 1.4 0l2.3 2.3l2.6-2.6a1 1 0 0 1 1.4 0Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M3 3a1 1 0 0 1 1 1v14h16a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm14.7 4.3a1 1 0 0 1 0 1.4l-3.3 3.3l-2.3-2.3a1 1 0 0 0-1.4 0L6.3 14a1 1 0 1 1-1.4-1.4l4.4-4.4a1 1 0 0 1 1.4 0l2.3 2.3l2.6-2.6a1 1 0 0 1 1.4 0Z'/%3E%3C/svg%3E");
+}
+
+/* FX — currency / exchange */
+.pyth-cat-icon--fx {
+  background: #4ade80;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M11 2a1 1 0 0 1 2 0v1.1c2.6.3 4.5 1.9 4.8 4.3a1 1 0 1 1-2 .2c-.2-1.7-1.6-2.5-3.8-2.5c-2.2 0-3.5.9-3.5 2.3c0 1.3 1.1 1.9 4 2.5c3.3.8 5.5 2 5.5 5.1c0 2.7-2.1 4.5-5.3 4.9V22a1 1 0 0 1-2 0v-1.1c-2.9-.3-5-2-5.4-4.7a1 1 0 1 1 2-.3c.4 2 2.2 3 4.4 3c2.4 0 3.9-1 3.9-2.6c0-1.6-1.4-2.2-4.5-2.9C8.5 11.6 6.5 10.4 6.5 7.6c0-2.5 1.9-4.2 4.5-4.5V2Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M11 2a1 1 0 0 1 2 0v1.1c2.6.3 4.5 1.9 4.8 4.3a1 1 0 1 1-2 .2c-.2-1.7-1.6-2.5-3.8-2.5c-2.2 0-3.5.9-3.5 2.3c0 1.3 1.1 1.9 4 2.5c3.3.8 5.5 2 5.5 5.1c0 2.7-2.1 4.5-5.3 4.9V22a1 1 0 0 1-2 0v-1.1c-2.9-.3-5-2-5.4-4.7a1 1 0 1 1 2-.3c.4 2 2.2 3 4.4 3c2.4 0 3.9-1 3.9-2.6c0-1.6-1.4-2.2-4.5-2.9C8.5 11.6 6.5 10.4 6.5 7.6c0-2.5 1.9-4.2 4.5-4.5V2Z'/%3E%3C/svg%3E");
+}
+
+/* Metal — ingot / scale */
+.pyth-cat-icon--metal {
+  background: #fbbf24;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M8.2 5.1A2 2 0 0 1 10 4h4a2 2 0 0 1 1.8 1.1l4.5 9A2 2 0 0 1 18.5 17H5.5a2 2 0 0 1-1.8-2.9l4.5-9ZM10 6l-4.2 8.5h12.4L14 6h-4Zm-6 13a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H5a1 1 0 0 1-1-1Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M8.2 5.1A2 2 0 0 1 10 4h4a2 2 0 0 1 1.8 1.1l4.5 9A2 2 0 0 1 18.5 17H5.5a2 2 0 0 1-1.8-2.9l4.5-9ZM10 6l-4.2 8.5h12.4L14 6h-4Zm-6 13a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H5a1 1 0 0 1-1-1Z'/%3E%3C/svg%3E");
+}
+
+/* Other / unknown category — question mark (cyan, distinct from equity coral) */
+.pyth-cat-icon--other {
+  background: #22d3ee;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20Zm0 2a8 8 0 1 1 0 16a8 8 0 0 1 0-16Zm0 11a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5Zm0-8a3 3 0 0 0-3 3a1 1 0 1 0 2 0a1 1 0 1 1 1-1a1 1 0 0 1 0 2a1 1 0 0 0-1 1v1a1 1 0 1 0 2 0v-.2A3 3 0 0 0 12 7Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20Zm0 2a8 8 0 1 1 0 16a8 8 0 0 1 0-16Zm0 11a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5Zm0-8a3 3 0 0 0-3 3a1 1 0 1 0 2 0a1 1 0 1 1 1-1a1 1 0 0 1 0 2a1 1 0 0 0-1 1v1a1 1 0 1 0 2 0v-.2A3 3 0 0 0 12 7Z'/%3E%3C/svg%3E");
+}
+
+.pyth-suggested-btn {
+  gap: 0.4rem;
+}
+
+.pyth-suggested-btn .pyth-cat-icon {
+  width: 14px;
+  height: 14px;
+}
+
 #statusLine.is-error {
   color: #f87171;
 }
+
 .pyth-cards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.85rem;
-  margin: 1rem 0;
+  margin: 0.25rem 0 0;
 }
+
 .pyth-card {
-  background: #14141b;
-  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(9, 9, 11, 0.45);
+  border: 1px solid rgba(139, 92, 246, 0.22);
   border-radius: 12px;
   padding: 1rem 1.1rem;
 }
+
 .pyth-card__title {
   margin: 0 0 0.4rem;
   font-size: 0.8rem;
@@ -6163,46 +6357,55 @@ html {
   letter-spacing: 0.04em;
   font-weight: 600;
 }
+
 .pyth-card__value {
   margin: 0 0 0.75rem;
   font-size: 1.75rem;
   font-weight: 700;
   color: #f4f4f5;
 }
+
 .pyth-card__value--sm {
   font-size: 1.15rem;
 }
+
 .pyth-card__meta {
   margin: 0;
   display: grid;
   gap: 0.35rem;
 }
+
 .pyth-card__row {
   display: grid;
   grid-template-columns: 7.5rem minmax(0, 1fr);
   gap: 0.5rem;
   font-size: 0.85rem;
 }
+
 .pyth-card__row dt {
   color: #71717a;
   margin: 0;
 }
+
 .pyth-card__row dd {
   margin: 0;
   color: #d4d4d8;
   overflow-wrap: anywhere;
 }
+
 .pyth-chart-wrap {
   position: relative;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(34, 197, 94, 0.22);
   border-radius: 12px;
   overflow: hidden;
-  background: #121218;
+  background: rgba(9, 9, 11, 0.45);
 }
+
 .pyth-chart {
   width: 100%;
   height: 360px;
 }
+
 .pyth-chart-empty {
   position: absolute;
   inset: 0;
@@ -6211,21 +6414,67 @@ html {
   margin: 0;
   pointer-events: none;
 }
+
 .pyth-chart-empty[hidden] {
   display: none;
 }
+
 .pyth-feeds-table .is-selected {
   background: rgba(37, 99, 235, 0.12);
 }
+
+.pyth-category-stats.holders-summary-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.pyth-summary-item--crypto::before {
+  background: linear-gradient(180deg, #a78bfa, #7c3aed);
+}
+
+.pyth-summary-item--equity::before {
+  background: linear-gradient(180deg, #fb7185, #e11d48);
+}
+
+.pyth-summary-item--fx::before {
+  background: linear-gradient(180deg, #4ade80, #16a34a);
+}
+
+.pyth-summary-item--metal::before {
+  background: linear-gradient(180deg, #fbbf24, #d97706);
+}
+
+.pyth-summary-item--other::before {
+  background: linear-gradient(180deg, #22d3ee, #0891b2);
+}
+
+.pyth-category-stats .trades-summary-label .pyth-cat-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.pyth-cat-icon--total {
+  background: #4ade80;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm9 0h7v7h-7v-7Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm9 0h7v7h-7v-7Z'/%3E%3C/svg%3E");
+}
+
+@media (max-width: 1100px) {
+  .pyth-category-stats.holders-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .vybe-action-btn--sm {
   padding: 0.35rem 0.7rem;
   font-size: 0.8rem;
 }
+
 .table-wrap {
   overflow-x: auto;
 }
+
 @media (max-width: 1100px) {
-  .pyth-filters {
+  .pyth-filters.remote-filters-fields-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .pyth-cards {

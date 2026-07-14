@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8HY0VRK14N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8HY0VRK14N');
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1150" />
     <title>Solana Pyth API</title>
@@ -19,14 +28,20 @@
       content="Explore Solana Pyth API price feeds with the Vybe Solana API: live USD prices, OHLC candles, historical price series, product metadata and oracle tools."
     />
     <meta property="og:image" content="https://solana-pyth-api.vybenetwork.com/solana-pyth-api.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:alt" content="Solana Pyth API app powered by Vybe API" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Solana Pyth API" />
     <meta
       name="twitter:description"
       content="Explore Solana Pyth API price feeds with the Vybe Solana API: live USD prices, OHLC candles, historical price series, product metadata and oracle tools."
     />
+    <meta name="twitter:image" content="https://solana-pyth-api.vybenetwork.com/solana-pyth-api.jpg" />
+    <meta name="twitter:image:alt" content="Solana Pyth API app powered by Vybe API" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="app.css?v=2" />
+    <link rel="stylesheet" href="app.css?v=17" />
     <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
   </head>
   <body>
@@ -42,9 +57,19 @@
               Solana <span class="page-masthead__title-accent">Pyth</span> API
             </h1>
             <p class="page-masthead__description">
-              Browse Vybe’s Pyth oracle endpoints: price feeds, live USD prices, OHLC candles,
-              historical price series, and product metadata — in one demo.
+              Explore Solana Pyth API price feeds with the Vybe Solana API: live USD prices, OHLC
+              candles, historical price series, product metadata and oracle tools.
             </p>
+          </div>
+          <div class="page-masthead__visual" aria-hidden="true">
+            <img
+              src="/solana-pyth-api-data.png"
+              alt=""
+              width="450"
+              height="434"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         </div>
         <nav class="page-masthead__nav" aria-label="Documentation and community links">
@@ -234,10 +259,10 @@
         </nav>
       </header>
 
-      <section class="panel pyth-controls-panel" aria-labelledby="pythControlsTitle">
-        <div class="section-header">
-          <div class="section-header__title-row">
-            <span class="section-header__dot" aria-hidden="true"></span>
+      <section class="section-card section-card--inputs inputs panel" aria-labelledby="pythControlsTitle">
+        <div class="section-heading">
+          <div class="section-header">
+            <span class="section-header__marker" aria-hidden="true"></span>
             <h2 id="pythControlsTitle" class="section-header__title">Remote Filters</h2>
           </div>
           <div class="section-lede meta remote-filters-help">
@@ -247,123 +272,212 @@
           </div>
         </div>
 
-        <div class="filters-grid pyth-filters">
-          <label class="filter-field">
-            <span class="filter-label">Search feeds</span>
-            <input
-              id="feedSearch"
-              type="search"
-              placeholder="Symbol, price feed, or product address"
-              autocomplete="off"
-            />
-          </label>
-          <label class="filter-field">
-            <span class="filter-label">Filter priceFeedAddress</span>
-            <input
-              id="filterPriceFeed"
-              type="text"
-              placeholder="Optional Vybe list filter"
-              spellcheck="false"
-              autocomplete="off"
-            />
-          </label>
-          <label class="filter-field">
-            <span class="filter-label">Filter productAddress</span>
-            <input
-              id="filterProduct"
-              type="text"
-              placeholder="Optional Vybe list filter"
-              spellcheck="false"
-              autocomplete="off"
-            />
-          </label>
-          <label class="filter-field">
-            <span class="filter-label">Resolution</span>
-            <select id="resolution" title="Candle / history bucket size">
-              <option value="1m" selected>1 minute</option>
-              <option value="5m">5 minutes</option>
-              <option value="15m">15 minutes</option>
-              <option value="30m">30 minutes</option>
-              <option value="1h">1 hour</option>
-              <option value="4h">4 hours</option>
-              <option value="1d">1 day</option>
-              <option value="1w">1 week</option>
-              <option value="1y">1 year</option>
-              <option value="custom">Custom seconds…</option>
-            </select>
-          </label>
-          <label class="filter-field" id="customResolutionWrap" hidden>
-            <span class="filter-label">Custom seconds</span>
-            <input id="customResolution" type="number" min="1" step="1" placeholder="e.g. 60" />
-          </label>
-          <label class="filter-field">
-            <span class="filter-label">Time range mode</span>
-            <select id="rangeMode">
-              <option value="lookback" selected>Lookback preset</option>
-              <option value="custom">Custom start / end</option>
-            </select>
-          </label>
-          <label class="filter-field" id="lookbackWrap">
-            <span class="filter-label">Lookback</span>
-            <select id="lookback" title="How far back to fetch">
-              <option value="3600">1 hour</option>
-              <option value="21600" selected>6 hours</option>
-              <option value="43200">12 hours</option>
-              <option value="86400">1 day</option>
-              <option value="604800">7 days</option>
-              <option value="2592000">30 days</option>
-              <option value="7776000">90 days</option>
-              <option value="31536000">365 days</option>
-            </select>
-          </label>
-          <label class="filter-field" id="timeStartWrap" hidden>
-            <span class="filter-label">timeStart</span>
-            <input id="timeStart" type="datetime-local" />
-          </label>
-          <label class="filter-field" id="timeEndWrap" hidden>
-            <span class="filter-label">timeEnd</span>
-            <input id="timeEnd" type="datetime-local" />
-          </label>
-          <label class="filter-field">
-            <span class="filter-label">limit</span>
-            <input id="seriesLimit" type="number" min="1" max="5000" step="1" value="1000" />
-          </label>
-          <label class="filter-field">
-            <span class="filter-label">page</span>
-            <input id="seriesPage" type="number" min="0" step="1" value="0" />
-          </label>
-          <label class="filter-field">
-            <span class="filter-label">Chart type</span>
-            <select id="chartType">
-              <option value="candles" selected>Candles (OHLC)</option>
-              <option value="history">Price history</option>
-            </select>
-          </label>
-          <label class="filter-field filter-field--checkbox">
-            <span class="filter-label">eliminateCloseToOpenGaps</span>
-            <input id="eliminateGaps" type="checkbox" checked />
-          </label>
+        <div class="remote-filters-fields-row pyth-filters">
+          <div class="field">
+            <label for="feedSearch">
+              <span class="label-icon field-icon icon-search" aria-hidden="true"></span>
+              Search feeds
+            </label>
+            <div class="field-control">
+              <span class="field-icon icon-search" aria-hidden="true"></span>
+              <input
+                id="feedSearch"
+                type="search"
+                placeholder="Symbol, price feed, or product address"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="field">
+            <label for="filterPriceFeed">
+              <span class="label-icon field-icon icon-tag" aria-hidden="true"></span>
+              Filter priceFeedAddress
+            </label>
+            <div class="field-control">
+              <span class="field-icon icon-tag" aria-hidden="true"></span>
+              <input
+                id="filterPriceFeed"
+                type="text"
+                placeholder="Optional Vybe list filter"
+                spellcheck="false"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="field">
+            <label for="filterProduct">
+              <span class="label-icon field-icon icon-link" aria-hidden="true"></span>
+              Filter productAddress
+            </label>
+            <div class="field-control">
+              <span class="field-icon icon-link" aria-hidden="true"></span>
+              <input
+                id="filterProduct"
+                type="text"
+                placeholder="Optional Vybe list filter"
+                spellcheck="false"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="field">
+            <label for="resolution">
+              <span class="label-icon field-icon icon-grid" aria-hidden="true"></span>
+              Resolution
+            </label>
+            <div class="field-control">
+              <span class="field-icon icon-grid" aria-hidden="true"></span>
+              <select id="resolution" title="Candle / history bucket size">
+                <option value="1m" selected>1 minute</option>
+                <option value="5m">5 minutes</option>
+                <option value="15m">15 minutes</option>
+                <option value="30m">30 minutes</option>
+                <option value="1h">1 hour</option>
+                <option value="4h">4 hours</option>
+                <option value="1d">1 day</option>
+                <option value="1w">1 week</option>
+                <option value="1y">1 year</option>
+                <option value="custom">Custom seconds…</option>
+              </select>
+            </div>
+          </div>
+          <div class="field" id="customResolutionWrap" hidden>
+            <label for="customResolution">
+              <span class="label-icon field-icon icon-hash" aria-hidden="true"></span>
+              Custom seconds
+            </label>
+            <div class="field-control">
+              <span class="field-icon icon-hash" aria-hidden="true"></span>
+              <input id="customResolution" type="number" min="1" step="1" placeholder="e.g. 60" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="rangeMode">
+              <span class="label-icon field-icon icon-clock" aria-hidden="true"></span>
+              Time range mode
+            </label>
+            <div class="field-control">
+              <span class="field-icon icon-clock" aria-hidden="true"></span>
+              <select id="rangeMode">
+                <option value="lookback" selected>Lookback preset</option>
+                <option value="custom">Custom start / end</option>
+              </select>
+            </div>
+          </div>
+          <div class="field" id="lookbackWrap">
+            <label for="lookback">
+              <span class="label-icon field-icon icon-clock" aria-hidden="true"></span>
+              Lookback
+            </label>
+            <div class="field-control">
+              <span class="field-icon icon-clock" aria-hidden="true"></span>
+              <select id="lookback" title="How far back to fetch">
+                <option value="3600">1 hour</option>
+                <option value="21600" selected>6 hours</option>
+                <option value="43200">12 hours</option>
+                <option value="86400">1 day</option>
+                <option value="604800">7 days</option>
+                <option value="2592000">30 days</option>
+                <option value="7776000">90 days</option>
+                <option value="31536000">365 days</option>
+              </select>
+            </div>
+          </div>
+          <div class="field" id="timeStartWrap" hidden>
+            <label for="timeStart">
+              <span class="label-icon field-icon icon-clock" aria-hidden="true"></span>
+              timeStart
+            </label>
+            <div class="field-control">
+              <span class="field-icon icon-clock" aria-hidden="true"></span>
+              <input id="timeStart" type="datetime-local" />
+            </div>
+          </div>
+          <div class="field" id="timeEndWrap" hidden>
+            <label for="timeEnd">
+              <span class="label-icon field-icon icon-clock" aria-hidden="true"></span>
+              timeEnd
+            </label>
+            <div class="field-control">
+              <span class="field-icon icon-clock" aria-hidden="true"></span>
+              <input id="timeEnd" type="datetime-local" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="seriesLimit">
+              <span class="label-icon field-icon icon-hash" aria-hidden="true"></span>
+              limit
+            </label>
+            <div class="field-control">
+              <span class="field-icon icon-hash" aria-hidden="true"></span>
+              <input id="seriesLimit" type="number" min="1" max="5000" step="1" value="1000" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="seriesPage">
+              <span class="label-icon field-icon icon-pages" aria-hidden="true"></span>
+              page
+            </label>
+            <div class="field-control">
+              <span class="field-icon icon-pages" aria-hidden="true"></span>
+              <input id="seriesPage" type="number" min="0" step="1" value="0" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="chartType">
+              <span class="label-icon field-icon icon-grid" aria-hidden="true"></span>
+              Chart type
+            </label>
+            <div class="field-control">
+              <span class="field-icon icon-grid" aria-hidden="true"></span>
+              <select id="chartType">
+                <option value="candles" selected>Candles (OHLC)</option>
+                <option value="history">Price history</option>
+              </select>
+            </div>
+          </div>
+          <div class="field field-switch">
+            <div class="field-switch-header">
+              <span class="label-icon field-icon icon-grid" aria-hidden="true"></span>
+              <span class="field-switch-title">eliminateCloseToOpenGaps</span>
+            </div>
+            <label class="trades-fetch-switch" title="Eliminate gaps between candles by using previous close as next open">
+              <input type="checkbox" id="eliminateGaps" class="trades-fetch-switch-input" checked />
+              <span class="trades-fetch-switch-track">
+                <span class="trades-fetch-switch-option" data-value="single">Show Gaps</span>
+                <span class="trades-fetch-switch-option" data-value="paged">On</span>
+              </span>
+            </label>
+          </div>
         </div>
 
         <div class="pyth-quick-picks" id="quickPicks" aria-label="Suggested feeds">
-          <span class="filter-label">Suggested</span>
+          <span class="meta">Suggested</span>
           <div class="pyth-quick-picks__btns" id="quickPickBtns"></div>
         </div>
 
-        <div class="actions-row">
-          <button type="button" id="loadFeedsBtn" class="vybe-action-btn">Load feeds</button>
-          <button type="button" id="refreshBtn" class="vybe-action-btn" disabled>Refresh selected</button>
-          <button type="button" id="prevPageBtn" class="vybe-action-btn" disabled>Prev page</button>
-          <button type="button" id="nextPageBtn" class="vybe-action-btn" disabled>Next page</button>
-          <button type="button" id="exportCsvBtn" class="vybe-action-btn" disabled>Export CSV</button>
-          <span id="statusLine" class="meta" role="status"></span>
+        <div class="remote-filters-actions-row">
+          <div class="actions">
+            <button type="button" id="loadFeedsBtn" class="vybe-action-btn vybe-action-btn--fetch fetch-btn-attention">
+              <span class="vybe-action-btn__icon vybe-action-btn__icon--fetch" aria-hidden="true"></span>
+              <span class="vybe-action-btn__text">Load feeds</span>
+            </button>
+            <button type="button" id="refreshBtn" class="vybe-action-btn" disabled>Refresh selected</button>
+            <button type="button" id="prevPageBtn" class="vybe-action-btn" disabled>Prev page</button>
+            <button type="button" id="nextPageBtn" class="vybe-action-btn" disabled>Next page</button>
+            <button type="button" id="exportCsvBtn" class="vybe-action-btn vybe-action-btn--export" disabled>
+              <span class="vybe-action-btn__icon vybe-action-btn__icon--export" aria-hidden="true"></span>
+              <span class="vybe-action-btn__text">Export CSV</span>
+            </button>
+            <span id="statusLine" class="meta" role="status"></span>
+          </div>
         </div>
       </section>
 
-      <section class="panel pyth-detail-panel" aria-labelledby="pythDetailTitle">
-        <div class="section-header">
-          <div class="section-header__title-row">
-            <span class="section-header__dot" aria-hidden="true"></span>
+      <section class="section-card section-card--token panel" aria-labelledby="pythDetailTitle">
+        <div class="section-heading">
+          <div class="section-header">
+            <span class="section-header__marker" aria-hidden="true"></span>
             <h2 id="pythDetailTitle" class="section-header__title">Selected Feed</h2>
           </div>
           <p id="selectedFeedMeta" class="section-lede meta">Pick a feed to load live price, product, and chart.</p>
@@ -381,20 +495,91 @@
             <dl class="pyth-card__meta" id="productMeta"></dl>
           </article>
         </div>
+      </section>
 
+      <section class="section-card section-card--chart panel" aria-labelledby="pythChartTitle">
+        <div class="section-heading">
+          <div class="section-header">
+            <span class="section-header__marker" aria-hidden="true"></span>
+            <h2 id="pythChartTitle" class="section-header__title">Price Chart</h2>
+          </div>
+          <p class="section-lede meta">OHLC candles or price history for the selected Pyth feed.</p>
+        </div>
         <div class="pyth-chart-wrap">
           <div id="chart" class="pyth-chart" aria-label="Price chart"></div>
           <p id="chartEmpty" class="meta pyth-chart-empty">No chart data yet.</p>
         </div>
       </section>
 
-      <section class="panel pyth-feeds-panel" aria-labelledby="pythFeedsTitle">
-        <div class="section-header">
-          <div class="section-header__title-row">
-            <span class="section-header__dot" aria-hidden="true"></span>
+      <section class="section-card section-card--holders holders-section panel" aria-labelledby="pythFeedsTitle">
+        <div class="section-heading">
+          <div class="section-header">
+            <span class="section-header__marker" aria-hidden="true"></span>
             <h2 id="pythFeedsTitle" class="section-header__title">Price Feeds</h2>
           </div>
-          <p id="feedsMeta" class="section-lede meta">Load feeds to browse Pyth products.</p>
+          <p id="feedsMeta" class="section-lede meta">
+            Each row is a Pyth price feed from Vybe: symbol with category, price-feed account,
+            and product account. Select a feed to load live price, product metadata, and chart data.
+          </p>
+        </div>
+        <div class="holders-summary-grid pyth-category-stats" id="categoryStats" aria-label="Feed counts by category">
+          <div class="trades-summary-item trades-summary-item--count" data-cat="total">
+            <span class="trades-summary-label">
+              <span class="pyth-cat-icon pyth-cat-icon--total" aria-hidden="true"></span>
+              Total
+            </span>
+            <span class="trades-summary-value" data-cat-count="total">0</span>
+          </div>
+          <div class="trades-summary-item pyth-summary-item--crypto" data-cat="crypto">
+            <span class="trades-summary-label">
+              <span class="pyth-cat-icon pyth-cat-icon--crypto" aria-hidden="true"></span>
+              Crypto
+            </span>
+            <span class="trades-summary-value" data-cat-count="crypto">
+              <span class="trades-summary-value__main">0</span>
+              <span class="trades-summary-value__suffix"> / TOTAL</span>
+            </span>
+          </div>
+          <div class="trades-summary-item pyth-summary-item--equity" data-cat="equity">
+            <span class="trades-summary-label">
+              <span class="pyth-cat-icon pyth-cat-icon--equity" aria-hidden="true"></span>
+              Equity
+            </span>
+            <span class="trades-summary-value" data-cat-count="equity">
+              <span class="trades-summary-value__main">0</span>
+              <span class="trades-summary-value__suffix"> / TOTAL</span>
+            </span>
+          </div>
+          <div class="trades-summary-item pyth-summary-item--fx" data-cat="fx">
+            <span class="trades-summary-label">
+              <span class="pyth-cat-icon pyth-cat-icon--fx" aria-hidden="true"></span>
+              FX
+            </span>
+            <span class="trades-summary-value" data-cat-count="fx">
+              <span class="trades-summary-value__main">0</span>
+              <span class="trades-summary-value__suffix"> / TOTAL</span>
+            </span>
+          </div>
+          <div class="trades-summary-item pyth-summary-item--metal" data-cat="metal">
+            <span class="trades-summary-label">
+              <span class="pyth-cat-icon pyth-cat-icon--metal" aria-hidden="true"></span>
+              Metal
+            </span>
+            <span class="trades-summary-value" data-cat-count="metal">
+              <span class="trades-summary-value__main">0</span>
+              <span class="trades-summary-value__suffix"> / TOTAL</span>
+            </span>
+          </div>
+          <div class="trades-summary-item pyth-summary-item--other" data-cat="other">
+            <span class="trades-summary-label">
+              <span class="pyth-cat-icon pyth-cat-icon--other" aria-hidden="true"></span>
+              Other
+            </span>
+            <span class="trades-summary-value" data-cat-count="other">
+              <span class="trades-summary-value__main">0</span>
+              <span class="trades-summary-value__suffix"> / TOTAL</span>
+            </span>
+          </div>
         </div>
         <div class="table-wrap">
           <table class="holders-table pyth-feeds-table" id="feedsTable">
@@ -416,6 +601,6 @@
         </div>
       </section>
     </div>
-    <script src="app.js?v=4"></script>
+    <script src="app.js?v=16"></script>
   </body>
 </html>
