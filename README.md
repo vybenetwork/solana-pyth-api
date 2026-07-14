@@ -8,7 +8,7 @@
 [![X](https://img.shields.io/badge/X-Vybe__Network-000000?style=for-the-badge&logo=x)](https://x.com/Vybe_Network)
 </p>
 
-**Solana Pyth API:** Demo and reference implementation for Vybe’s Oracle (Pyth) endpoints — list price feeds, fetch live prices, OHLC candles, historical price series, and product metadata.
+Explore Solana Pyth API price feeds with the Vybe Solana API: live USD prices, OHLC candles, historical price series, product metadata and oracle tools.
 
 Try the live demo: https://solana-pyth-api.vybenetwork.com
 

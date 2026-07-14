@@ -6232,3 +6232,19 @@ html {
     grid-template-columns: 1fr;
   }
 }
+
+.pyth-filters {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.filter-field[hidden],
+#customResolutionWrap[hidden],
+#lookbackWrap[hidden],
+#timeStartWrap[hidden],
+#timeEndWrap[hidden] {
+  display: none !important;
+}
+@media (max-width: 1100px) {
+  .pyth-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
