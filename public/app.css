@@ -487,10 +487,11 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  width: 91px;
   min-width: 91px;
   max-width: 91px;
-  max-height: 48px;
   height: 48px;
+  max-height: 48px;
   border-radius: 8px;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.35);
@@ -499,10 +500,10 @@ body {
 
 .page-masthead__demo-preview img {
   display: block;
+  width: 91px;
   height: 48px;
-  max-height: 48px;
-  width: auto;
   max-width: 91px;
+  max-height: 48px;
   object-fit: cover;
   object-position: top center;
 }
