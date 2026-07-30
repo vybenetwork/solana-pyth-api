@@ -12,6 +12,8 @@ Explore Solana Pyth API price feeds with the Vybe Solana API: live USD prices, O
 
 Try the live demo: https://solana-pyth-api.vybenetwork.com
 
+![Solana Pyth API app](screenshots/solana-pyth-api-app-demo.jpg)
+
 ---
 
 ## Endpoints used
