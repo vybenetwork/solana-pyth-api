@@ -13,6 +13,7 @@ import {
   DEFAULT_PORT,
 } from './config.js';
 import { sendIndexHtml, serveIndexWithGoogleTag } from './google-tag.js';
+import { serveRootKeyFile } from './root-key-file.js';
 import { createDataHttpClient, toHumanReadableError } from './api/client.js';
 import {
   getPythCandles,
@@ -43,6 +44,7 @@ function setStaticCacheHeaders(res: Response, filePath: string): void {
   res.setHeader('Pragma', 'no-cache');
 }
 
+app.use(serveRootKeyFile());
 app.use(serveIndexWithGoogleTag(PUBLIC_DIR));
 app.use(
   express.static(PUBLIC_DIR, {
