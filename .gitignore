@@ -6,3 +6,4 @@ dist/
 deploy/
 scripts/
 DEPLOY.md
+.env.backup*

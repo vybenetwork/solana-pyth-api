@@ -12,6 +12,7 @@ import {
   VYBE_DATA_API_BASE,
   DEFAULT_PORT,
 } from './config.js';
+import { sendIndexHtml, serveIndexWithGoogleTag } from './google-tag.js';
 import { createDataHttpClient, toHumanReadableError } from './api/client.js';
 import {
   getPythCandles,
@@ -42,6 +43,7 @@ function setStaticCacheHeaders(res: Response, filePath: string): void {
   res.setHeader('Pragma', 'no-cache');
 }
 
+app.use(serveIndexWithGoogleTag(PUBLIC_DIR));
 app.use(
   express.static(PUBLIC_DIR, {
     setHeaders: setStaticCacheHeaders,
@@ -157,9 +159,7 @@ app.get('/api/pyth/products/:product', async (req, res) => {
 
 app.get('*', (req, res, next) => {
   if (req.path.startsWith('/api/')) return next();
-  res.sendFile(path.join(PUBLIC_DIR, 'index.html'), (err) => {
-    if (err) next(err);
-  });
+  sendIndexHtml(PUBLIC_DIR, res, next);
 });
 
 app.listen(port, () => {
