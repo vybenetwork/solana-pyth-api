@@ -1,0 +1,15 @@
+# Solana Pyth API
+
+> Explore Solana Pyth API price feeds with the Vybe Solana API: live USD prices, OHLC candles, historical price series, product metadata and oracle tools.
+
+Live demo of the Vybe Solana API. The linked docs pages are the Markdown versions.
+
+## Demo
+- [Solana Pyth API](https://solana-pyth-api.vybenetwork.com/): Explore Solana Pyth API price feeds with the Vybe Solana API: live USD prices, OHLC candles, historical price series, product metadata and oracle tools.
+
+## Docs
+- [Pyth Price Feeds](https://docs.vybenetwork.com/reference/get_pyth_price_product_pairs_v4.md)
+- [Pyth Current Price](https://docs.vybenetwork.com/reference/get_pyth_price_v4.md)
+- [Pyth Price Candles](https://docs.vybenetwork.com/reference/get_pyth_price_ohlc_v4.md)
+- [Pyth Price History](https://docs.vybenetwork.com/reference/get_pyth_price_ts_v4.md)
+- [Pyth Product](https://docs.vybenetwork.com/reference/get_pyth_product_v4.md)
