@@ -4,7 +4,7 @@
 
 [![Demo](https://img.shields.io/badge/Demo-Solana%20Pyth%20API%20live%20app-c2410c?style=for-the-badge&logo=googlechrome&logoColor=white)](https://solana-pyth-api.vybenetwork.com)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-5b21b6?style=for-the-badge&logo=github&logoColor=white)](https://github.com/vybenetwork/solana-pyth-api)
-[![API Key](https://img.shields.io/badge/Vybe-API%20key-3b82f6?style=for-the-badge&logo=gitbook&logoColor=white)](https://vybe.fyi/api-pricing)
+[![API Key](https://img.shields.io/badge/Vybe-API%20key-3b82f6?style=for-the-badge&logo=gitbook&logoColor=white)](https://vybe.fyi/api-pricing?utm_source=pyth-api-readme&utm_medium=referral)
 [![X](https://img.shields.io/badge/X-Vybe__Network-000000?style=for-the-badge&logo=x)](https://x.com/Vybe_Network)
 </p>
 
@@ -29,7 +29,7 @@ Try the live demo: https://solana-pyth-api.vybenetwork.com
 ## Prerequisites
 
 - **Node.js** ≥ 20
-- A [Vybe Data API key](https://vybe.fyi/api-pricing)
+- A [Vybe Data API key](https://vybe.fyi/api-pricing?utm_source=pyth-api-readme&utm_medium=referral)
 
 ## Quick start
 
