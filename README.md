@@ -2,7 +2,7 @@
 
 <p align="center">
 
-[![Demo](https://img.shields.io/badge/Demo-Solana%20Pyth%20API%20live%20app-c2410c?style=for-the-badge&logo=googlechrome&logoColor=white)](https://solana-pyth-api.vybenetwork.com)
+[![Demo](https://img.shields.io/badge/Demo-Solana%20Pyth%20API%20live%20app-c2410c?style=for-the-badge&logo=googlechrome&logoColor=white)](https://solana-pyth-api.vybenetwork.com?utm_source=pyth-api-readme&utm_medium=referral)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-5b21b6?style=for-the-badge&logo=github&logoColor=white)](https://github.com/vybenetwork/solana-pyth-api)
 [![API Key](https://img.shields.io/badge/Vybe-API%20key-1e3a8a?style=for-the-badge&logo=gitbook&logoColor=white)](https://vybe.fyi/api-pricing?utm_source=pyth-api-readme&utm_medium=referral)
 [![X](https://img.shields.io/badge/X-Vybe__Network-000000?style=for-the-badge&logo=x)](https://x.com/Vybe_Network)
@@ -10,7 +10,7 @@
 
 Explore Solana Pyth API price feeds with the Vybe Solana API: live USD prices, OHLC candles, historical price series, product metadata and oracle tools.
 
-Try the live demo: https://solana-pyth-api.vybenetwork.com
+Try the live demo: [`https://solana-pyth-api.vybenetwork.com`](https://solana-pyth-api.vybenetwork.com?utm_source=pyth-api-readme&utm_medium=referral)
 
 ![Solana Pyth API app](screenshots/solana-pyth-api-app-demo.jpg)
 
