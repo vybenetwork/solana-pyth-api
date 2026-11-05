@@ -53,7 +53,52 @@
     <meta name="twitter:image" content="https://solana-pyth-api.vybenetwork.com/solana-pyth-api.jpg" />
     <meta name="twitter:image:alt" content="Solana Pyth API app powered by Vybe API" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="app.css?v=25" />
+    <link rel="stylesheet" href="app.css?v=35" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "Solana Pyth API",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Web",
+            "url": "https://solana-pyth-api.vybenetwork.com/",
+            "description": "Explore Solana Pyth API price feeds with the Vybe Solana API: live USD prices, OHLC candles, historical price series, product metadata and oracle tools.",
+            "provider": { "@type": "Organization", "name": "Vybe Network", "url": "https://vybe.fyi/" }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What does selecting a Pyth feed load?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Live USD price, confidence, the 1-hour EMA, the product account, and a candle or history chart."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How do I get a Vybe API key?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Generate a free API key on Vybe. A free key starts your first calls. Paid plans raise the rate limit."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What if that feed has no candle page?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Price and product still load. An empty candle page tries history once, then the other way around."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
     <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
   </head>
   <body>
@@ -328,6 +373,70 @@
           </div>
         </nav>
       </header>
+
+      <section class="seo-answer" aria-labelledby="pythAnswerTitle">
+        <p class="seo-answer__eyebrow"><span>Vybe</span><span class="seo-answer__pill">Oracle reads</span></p>
+        <div class="seo-answer__top">
+          <div class="seo-answer__intro">
+            <h2 id="pythAnswerTitle">Live Pyth prices, oracle candles, and history</h2>
+            <p>
+              Pick a Pyth feed and this page shows its live USD price, oracle candles or price history, and the product account next to the chart. Set the resolution and time range, page through the series, and export what is loaded as CSV.
+            </p>
+            <p>
+              Feeds are grouped into crypto, equity, FX, metal, and other from the symbol prefix. Search that list, or ask Vybe for a price-feed or product address. A free API key on Vybe is enough to start. Paid plans raise the rate limit.
+            </p>
+            <a class="page-masthead__btn page-masthead__btn--key" href="https://vybe.fyi/api-pricing?utm_source=pyth&amp;utm_medium=referral">
+              <span class="page-masthead__btn-icon page-masthead__btn-icon--key" aria-hidden="true"></span>
+              Generate a free API key
+            </a>
+          </div>
+          <aside class="seo-answer__endpoints" aria-label="Endpoints Used">
+            <h3><svg class="seo-answer__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12"/><path d="M8 12h12"/><path d="M8 18h12"/><path d="M4 6h.01"/><path d="M4 12h.01"/><path d="M4 18h.01"/></svg>Endpoints Used:</h3>
+            <ul>
+              <li><span>Price feeds</span> <code>GET /v4/oracle/pyth/pricefeeds</code></li>
+              <li><span>Live price</span> <code>GET /v4/oracle/pyth/pricefeeds/{priceFeedAddress}/price</code></li>
+              <li><span>Candles</span> <code>GET /v4/oracle/pyth/pricefeeds/{priceFeedAddress}/candles</code></li>
+              <li><span>Price history</span> <code>GET /v4/oracle/pyth/pricefeeds/{priceFeedAddress}/price-ts</code></li>
+              <li><span>Product</span> <code>GET /v4/oracle/pyth/products/{productAddress}</code></li>
+            </ul>
+          </aside>
+        </div>
+        <ul class="seo-answer__cards">
+          <li class="seo-answer__card seo-answer__card--price">
+            <h3><svg class="seo-answer__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16l5-5 3.5 3.5L20 7"/><path d="M14 7h6v6"/></svg>Live USD price</h3>
+            <p>USD price, confidence, and the 1-hour EMA from the selected feed's price call.</p>
+          </li>
+          <li class="seo-answer__card seo-answer__card--candles">
+            <h3><svg class="seo-answer__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16"/><path d="M7 8h3v6H7z"/><path d="M17 4v16"/><path d="M14 11h3v5h-3z"/></svg>OHLC candles</h3>
+            <p>Open, high, low, and close from that Pyth feed's candle endpoint, not from trades.</p>
+          </li>
+          <li class="seo-answer__card seo-answer__card--history">
+            <h3><svg class="seo-answer__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v5l3 2"/></svg>Price history</h3>
+            <p>Timestamped USD price, confidence, and 1-hour EMA from the price history call.</p>
+          </li>
+          <li class="seo-answer__card seo-answer__card--product">
+            <h3><svg class="seo-answer__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v5h5"/><path d="M10 13h6"/><path d="M10 17h4"/></svg>Product metadata</h3>
+            <p>Description, asset type, base, quote, and symbol from the Pyth product account.</p>
+          </li>
+        </ul>
+        <div class="seo-answer__faq">
+          <p class="seo-answer__label">Also answered here</p>
+          <div class="seo-answer__faq-grid">
+            <article>
+              <h3>What does selecting a Pyth feed load?</h3>
+              <p>Live USD price, confidence, the 1-hour EMA, the product account, and a candle or history chart.</p>
+            </article>
+            <article>
+              <h3>How do I get a Vybe API key?</h3>
+              <p><a href="https://vybe.fyi/api-pricing?utm_source=pyth&amp;utm_medium=referral">Generate a free API key on Vybe</a>. A free key starts your first calls. Paid plans raise the rate limit.</p>
+            </article>
+            <article>
+              <h3>What if that feed has no candle page?</h3>
+              <p>Price and product still load. An empty candle page tries history once, then the other way around.</p>
+            </article>
+          </div>
+        </div>
+      </section>
 
       <section class="section-card section-card--inputs inputs panel" aria-labelledby="pythControlsTitle">
         <div class="section-heading">
