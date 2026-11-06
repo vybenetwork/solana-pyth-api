@@ -2,10 +2,27 @@
 
 > Explore Solana Pyth API price feeds with the Vybe Solana API: live USD prices, OHLC candles, historical price series, product metadata and oracle tools.
 
-Live demo of the Vybe Solana API. The linked docs pages are the Markdown versions.
+This is a free demo that showcases the Vybe Pyth endpoints. Open it in the browser to test and demo them. Nothing to install. The linked docs pages are the Markdown versions.
+
+## What this demo shows
+Pick a Pyth feed and the page shows its live USD price, oracle candles or price history, and the product account next to the chart. Set the resolution and time range, page through the series, and export what is loaded as CSV. Feeds are grouped into crypto, equity, FX, metal, and other from the symbol prefix.
+
+- Live USD price: USD price, confidence, and the 1-hour EMA from the selected feed.
+- OHLC candles: open, high, low, and close from that feed's candle endpoint, not from trades.
+- Price history: timestamped USD price, confidence, and 1-hour EMA.
+- Product metadata: description, asset type, base, quote, and symbol from the product account.
+
+## Endpoints this demo calls
+- Pyth Price Feeds: `GET /v4/oracle/pyth/pricefeeds`
+- Pyth Current Price: `GET /v4/oracle/pyth/pricefeeds/{priceAddress}/price`
+- Pyth Price Candles: `GET /v4/oracle/pyth/pricefeeds/{priceAddress}/candles`
+- Pyth Price History: `GET /v4/oracle/pyth/pricefeeds/{priceAddress}/price-ts`
+- Pyth Product: `GET /v4/oracle/pyth/products/{productAddress}`
+
+The demo page is free to use. Pyth Price Feeds is on the Free plan, the lowest tier. A free API key starts the first calls. Paid plans raise the rate limit.
 
 ## Demo
-- [Solana Pyth API](https://solana-pyth-api.vybenetwork.com/): Explore Solana Pyth API price feeds with the Vybe Solana API: live USD prices, OHLC candles, historical price series, product metadata and oracle tools.
+- [Solana Pyth API](https://solana-pyth-api.vybenetwork.com/): Free browser demo of the Pyth endpoints. Pick a feed to test the live price, candles, and product account.
 
 ## Docs
 - [Pyth Price Feeds](https://docs.vybenetwork.com/reference/get_pyth_price_product_pairs_v4.md)
